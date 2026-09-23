@@ -1,0 +1,24 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Local raw data
+data/
+
+# Raw files
+*.csv
+*.csv.gz
+*.zip
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# OS
+.DS_Store
+Thumbs.db
