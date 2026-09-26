@@ -1,0 +1,13 @@
+citibike_dbt:
+  target: prod
+
+  outputs:
+    prod:
+      type: bigquery
+      method: oauth
+
+      project: citi-509517
+      dataset: analytics
+      location: US
+
+      threads: 4

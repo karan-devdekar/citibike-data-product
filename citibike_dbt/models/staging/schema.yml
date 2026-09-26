@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_citibike_trips
+    description: >
+      Staging model for Citi Bike trips. Converts raw source fields
+      into analytical data types and derives trip-level attributes.
+
+    columns:
+
+      - name: ride_id
+        description: Unique identifier for the trip.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: started_at
+        description: Trip start timestamp.
+        data_tests:
+          - not_null
+
+      - name: ended_at
+        description: Trip end timestamp.
+        data_tests:
+          - not_null
+
+      - name: rider_type
+        description: Rider membership type.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - member
+                - casual
+
+      - name: trip_duration_seconds
+        description: Trip duration calculated from start and end timestamps.
+        data_tests:
+          - not_null
+
+      - name: source_month
+        description: Month associated with the source file.
+        data_tests:
+          - not_null

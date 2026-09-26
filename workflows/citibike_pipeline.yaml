@@ -1,0 +1,34 @@
+main:
+  steps:
+    - run_citibike:
+        call: googleapis.run.v2.projects.locations.jobs.run
+        args:
+          name: projects/citi-509517/locations/asia-south1/jobs/citibike-ingestion
+          body: {}
+          connector_params:
+            timeout: 3600
+        result: citibike_result
+
+    - run_weather:
+        call: googleapis.run.v2.projects.locations.jobs.run
+        args:
+          name: projects/citi-509517/locations/asia-south1/jobs/weather-ingestion
+          body: {}
+          connector_params:
+            timeout: 3600
+        result: weather_result
+
+    - run_dbt:
+        call: googleapis.run.v2.projects.locations.jobs.run
+        args:
+          name: projects/citi-509517/locations/asia-south1/jobs/dbt-transformation
+          body: {}
+          connector_params:
+            timeout: 3600
+        result: dbt_result
+
+    - finish:
+        return:
+          citibike: ${citibike_result}
+          weather: ${weather_result}
+          dbt: ${dbt_result}
