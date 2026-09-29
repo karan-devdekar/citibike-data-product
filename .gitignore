@@ -22,3 +22,6 @@ dbt/dbt_packages/
 # OS
 .DS_Store
 Thumbs.db
+
+# MCP local artifacts
+mcp_server/__pycache__/

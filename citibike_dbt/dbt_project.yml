@@ -37,3 +37,7 @@ models:
 
     marts:
       +materialized: table
+
+    mcp_views:
+      +schema: mcp_views
+      +materialized: view

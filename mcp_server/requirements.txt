@@ -1,0 +1,4 @@
+mcp
+google-cloud-bigquery
+rapidfuzz
+sqlglot

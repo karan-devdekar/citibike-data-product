@@ -1,0 +1,6 @@
+streamlit
+google-genai
+mcp
+google-cloud-bigquery
+pandas
+plotly
