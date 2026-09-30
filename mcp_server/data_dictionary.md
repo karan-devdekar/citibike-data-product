@@ -226,6 +226,11 @@ than only from hours in which trips occurred.
 
 The `get_metric` tool provides the following predefined metrics.
 
+Curated metrics should be preferred over manually generated SQL whenever
+the requested metric is available.
+
+---
+
 ## total_trips
 
 ### Definition

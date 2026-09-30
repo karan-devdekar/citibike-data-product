@@ -61,6 +61,7 @@ def get_metric(
     - member_trip_share_pct
     - casual_trip_share_pct
     - rainy_trip_share_pct
+    - snowy_trips
 
     Grain must be exactly:
 
@@ -84,17 +85,28 @@ def get_metric(
     metric_aliases = {
         "total trips": "total_trips",
         "total_trip": "total_trips",
+
         "member trip share": "member_trip_share_pct",
         "member trip share percentage": "member_trip_share_pct",
         "member percentage": "member_trip_share_pct",
         "member share": "member_trip_share_pct",
+
         "casual trip share": "casual_trip_share_pct",
         "casual percentage": "casual_trip_share_pct",
         "casual share": "casual_trip_share_pct",
+
         "average trip duration": "avg_trip_duration_minutes",
         "avg trip duration": "avg_trip_duration_minutes",
+
         "rainy trip share": "rainy_trip_share_pct",
         "rain percentage": "rainy_trip_share_pct",
+
+        "snowy trips": "snowy_trips",
+        "snow trips": "snowy_trips",
+        "trips during snow": "snowy_trips",
+        "trips when snowing": "snowy_trips",
+        "trips when snow": "snowy_trips",
+        "snowy trip count": "snowy_trips",
     }
 
     normalized_metric = metric.strip().lower()
@@ -110,6 +122,7 @@ def get_metric(
         "member_trip_share_pct",
         "casual_trip_share_pct",
         "rainy_trip_share_pct",
+        "snowy_trips",
     }
 
     if normalized_metric not in valid_metrics:
@@ -286,6 +299,22 @@ IMPORTANT RULES:
    - member_trip_share_pct
    - casual_trip_share_pct
    - rainy_trip_share_pct
+   - snowy_trips
+
+9a. Metric interpretation:
+
+    - "trips during snow"
+    - "trips when snowing"
+    - "trips when snow"
+    - "snow trips"
+    - "snowy trips"
+    
+    all refer to the curated metric:
+    snowy_trips
+
+    For snowy_trips, use the trip-start hour's
+    snowfall condition. Do not calculate the metric
+    using snowy_hours.
 
 10. For get_metric, grain must be exactly:
     - day

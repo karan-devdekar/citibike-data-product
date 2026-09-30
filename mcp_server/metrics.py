@@ -36,6 +36,10 @@ METRICS = {
         "COUNT(*)"
         ")"
     ),
+
+    "snowy_trips": (
+        "COUNTIF(is_snowy = TRUE)"
+    ),
 }
 
 

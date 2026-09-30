@@ -24,7 +24,8 @@ WITH daily_trips AS (
         ) AS median_trip_duration_minutes,
 
         COUNT(DISTINCT start_station_id)
-            AS active_start_stations
+            AS active_start_stations,
+        COUNTIF(is_snowy = TRUE) AS snowy_trip_count
 
     FROM {{ ref('trip_weather_vw') }}
 
@@ -60,7 +61,6 @@ daily_weather AS (
         COUNTIF(rain > 0) AS rainy_hours,
 
         COUNTIF(snowfall > 0) AS snowy_hours
-
     FROM {{ ref('hourly_weather') }}
 
     GROUP BY weather_date
@@ -96,8 +96,8 @@ SELECT
     w.avg_wind_speed_10m,
 
     w.rainy_hours,
-    w.snowy_hours
-
+    w.snowy_hours,
+    t.snowy_trip_count
 FROM daily_trips t
 
 LEFT JOIN daily_weather w
