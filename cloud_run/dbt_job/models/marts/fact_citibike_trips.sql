@@ -1,38 +1,47 @@
-{{ config(
-    materialized='incremental',
-    incremental_strategy='merge',
-    unique_key='ride_id',
+{{
+    config(
 
-    partition_by={
-        "field": "trip_date",
-        "data_type": "date",
-        "granularity": "day"
-    },
+        materialized='incremental',
+        incremental_strategy='merge',
+        unique_key='ride_id',
+        partition_by={
+            "field": "trip_date",
+            "data_type": "date",
+            "granularity": "day"
+        },
+        cluster_by=[
+            "start_station_id",
+            "end_station_id",
+            "rider_type"
+        ]
+    )
+}}
 
-    cluster_by=[
-        "start_station_id",
-        "end_station_id",
-        "rider_type"
-    ]
-) }}
---Transactional Fact 
+-- This model creates the main transactional fact table.
+-- Grain: one row per Citi Bike trip.
+
 WITH source_data AS (
 
     SELECT
+
         ride_id,
         rideable_type,
         started_at,
         ended_at,
+
         trip_duration_seconds,
+
         trip_date,
 
         start_station_name,
         start_station_id,
+
         end_station_name,
         end_station_id,
 
         start_lat,
         start_lng,
+
         end_lat,
         end_lng,
 
@@ -46,11 +55,16 @@ WITH source_data AS (
 
     {% if is_incremental() %}
 
+
         WHERE ingested_at > (
+
             SELECT COALESCE(
                 MAX(ingested_at),
+
+                -- Default value for an empty target table.
                 TIMESTAMP('1900-01-01')
             )
+
             FROM {{ this }}
         )
 
@@ -58,26 +72,33 @@ WITH source_data AS (
 
 )
 
+
 SELECT
+
     ride_id,
     rideable_type,
+
     started_at,
     ended_at,
+
     trip_duration_seconds,
     trip_date,
 
     start_station_name,
     start_station_id,
+
     end_station_name,
     end_station_id,
 
     start_lat,
     start_lng,
+
     end_lat,
     end_lng,
 
     rider_type,
 
+    -- Audit/provenance fields.
     source_file,
     source_month,
     ingested_at
